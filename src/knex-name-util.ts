@@ -60,7 +60,7 @@ export class KnexNameUtil<T extends Record<string, string>> {
 
   select = (...aliases: SelectionAliases<T>) => {
     if (aliases[0] === '*') {
-      return this.prefixedAliasToPrefixedColumnLookup;
+      return this.selectAll();
     }
 
     const selection: Partial<PrefixedAliasToPrefixedColumnLookup> = {};
@@ -73,6 +73,10 @@ export class KnexNameUtil<T extends Record<string, string>> {
     }
 
     return selection;
+  }
+
+  selectAll = () => {
+    return this.prefixedAliasToPrefixedColumnLookup;
   }
 
   insert = (row: Partial<AliasedRow<T>>): Record<string, unknown> => {
