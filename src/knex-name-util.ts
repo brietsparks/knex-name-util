@@ -13,7 +13,7 @@ export interface KnexNameUtilConfig {
   rootAliasToColumn: Record<string, string>;
 }
 
-export class KnexNameUtil<T extends Record<string, string>> {
+export class KnexNameUtil<T extends Record<string, string>, E extends Partial<AliasedRow<T>>> {
 
   private config: KnexNameUtilConfig;
   private readonly aliasToPrefixedAliasLookup: AliasToPrefixedAliasLookup<T>;
@@ -119,7 +119,7 @@ export class KnexNameUtil<T extends Record<string, string>> {
     return wherePredicate;
   }
 
-  toAlias = <U extends Partial<AliasedRow<T>>>(row: Record<string, unknown>) => {
+  toAlias = <U = E>(row: Record<string, unknown>): U => {
     const aliasedRow: Partial<AliasedRow<T>> = {};
     for (const [prefixedAlias, value] of Object.entries(row)) {
       const alias = this.prefixedAliasToAliasLookup[prefixedAlias];
